@@ -2,6 +2,7 @@ cachetools==2.0.1
 certifi==2017.7.27.1
 chardet==3.0.4
 dill==0.2.7.1
+eventregistry==6.5.1
 future==0.16.0
 google-auth==1.1.1
 google-cloud-core==0.27.1
