@@ -1,7 +1,7 @@
 from eventregistry import *
 from datetime import datetime, timedelta
 
-def queryKeywords(client, keywords):
+def getArticles(client, keywords, count):
 	timeNow = datetime.utcnow()
 	timeRange = timedelta(days=1)
 	timeStart = timeNow - timeRange
@@ -15,7 +15,7 @@ def queryKeywords(client, keywords):
 	q = QueryArticlesIter( 
 						dateStart=timeStart,
 						lang="eng",
-						conceptUri=QueryItems.OR(uriList)
+						conceptUri=QueryItems.AND(uriList)
 						)
 	
 	q.setRequestedResult(RequestArticlesInfo(page=1, count=20, sortBy="rel",
@@ -23,15 +23,29 @@ def queryKeywords(client, keywords):
 
 
 	response = client.execQuery(q)
-		
-	articles = response["articles"]["results"]
 
-	for article in articles:
-		print(article["title"])
+	articles = 0
+
+	if "articles" in response :
+		articles = response["articles"]["results"]
+
+
+
+	return articles
 
 def main():
 	client = EventRegistry(apiKey="4c927d75-f35a-4646-910a-9f071768c8b1")
-	keywords = ["google"]
-	queryKeywords(client, keywords)
+	keywords = ["google", "apple"]
+	articleCount = 20;
+	articles = getArticles(client, keywords, articleCount)
+
+	for article in articles:
+		print("------------------------Article------------------------")
+		print("Title: ", article["title"])
+		print("Date: ", article["date"])
+		print("Time: ", article["time"])
+		print("URL: ", article["url"])
+
+
 
 main()
