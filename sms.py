@@ -9,7 +9,7 @@ def getTwilioClient():
 def sendMessage(client, number_from, number_to, text):
     print("Sent the following message from {0} to {1}:".format(number_from, number_to))
     print(text)
-    message = client.messages.create(to=number_to, from_=number_from, body=text)
+    return client.messages.create(to=number_to, from_=number_from, body=text)
 
 def main():
     client = getTwilioClient()

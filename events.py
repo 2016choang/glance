@@ -18,13 +18,13 @@ def getArticles(client, keywords, count):
 						conceptUri=QueryItems.AND(uriList)
 						)
 	
-	q.setRequestedResult(RequestArticlesInfo(page=1, count=20, sortBy="rel",
+	q.setRequestedResult(RequestArticlesInfo(page=1, count=count, sortBy="rel",
 		returnInfo=ReturnInfo(articleInfo=ArticleInfoFlags(concepts=True, categories=True, image=True))))
 
 
 	response = client.execQuery(q)
 
-	articles = 0
+	articles = None
 
 	if "articles" in response :
 		articles = response["articles"]["results"]
@@ -45,6 +45,5 @@ def main():
 		print("URL: ", article["url"])
 		print("Source: ", article["source"])
 
-
-
-main()
+if __name__=='__main__':
+	main()

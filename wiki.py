@@ -1,8 +1,10 @@
 from eventregistry import *
-import sys
 import requests
 import json
 from lxml import html
+
+def getERClient():
+    return EventRegistry(apiKey="4c927d75-f35a-4646-910a-9f071768c8b1")
 
 def getWiki(client, company):
     #uri = client.getConceptUri(company)
@@ -19,7 +21,7 @@ def getWiki(client, company):
     return body
 
 def main():
-    er = EventRegistry(apiKey="4c927d75-f35a-4646-910a-9f071768c8b1")
+    er = getERClient()
     print(getWiki(er, "apple"))
 
 if __name__ == "__main__":
