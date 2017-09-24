@@ -18,15 +18,18 @@ def main():
 	number_from = "+14804000465"
 	number_to = "+14806944346"
 
+	articleQuota = 10
+
 	for company in companies:
 		keywords = data[company]
-		for keyword in keywords:
-			pairing = [company, keyword]
-			articles = getArticles(er_client, pairing, 1)
-			if articles:
-				for article in articles:
-					message_body = ''
-					message_body += '------------------------Article------------------------' + '\n'
+		articles = getArticles(er_client, company, keywords, articleQuota)
+		message_Body = "----------" + company + "----------"
+		message = sendMessage(twilio_client, number_from, number_to, message_body)
+
+		if articles:
+			for article in articles:
+					message_body = ""
+					message_body += '----------Article----------' + '\n'
 					message_body += "Title: " + article["title"] + '\n'
 					message_body += "Date: " + article["date"] + '\n'
 					message_body += "Time: " + article["time"] + '\n'
