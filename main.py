@@ -22,22 +22,28 @@ def main():
 	number_from = "+14804000465"
 	number_to = "+14806944346"
 
+	articlePool = []
+	companyArticleCount = 5
 
 	for company in companies:
 		keywords, salience  = zip(*data[company])
-		articles = getArticles(er_client, company, keywords, articleQuota)
-		message_body = "----------" + company + "----------"
-		message = sendMessage(twilio_client, number_from, number_to, message_body)
+		articles = getArticles(er_client, company, keywords, companyArticleCount)
+		if articles :
+			for article in articles :
+				importance = 100
+				if article["source"] :
+					importance = article["source"]["ranking"]["importanceRank"]
+				articlePool.append((importance, article))
 
-		if articles:
-			for article in articles:
-					message_body = ""
-					message_body += '----------Article----------' + '\n'
-					message_body += "Title: " + article["title"] + '\n'
-					message_body += "Date: " + article["date"] + '\n'
-					message_body += "Time: " + article["time"] + '\n'
-					message_body += "URL: " + article["url"] + '\n'
-					message = sendMessage(twilio_client, number_from, number_to, message_body)
+	message_body = ""
+	for article in articlePool:
+		message_body += '----------Article----------' + '\n'
+		message_body += "Title: " + article["title"] + '\n'
+		message_body += "Date: " + article["date"] + '\n'
+		message_body += "Time: " + article["time"] + '\n'
+		message_body += "URL: " + article["url"] + '\n'
+
+	message = sendMessage(twilio_client, number_from, number_to, message_body)
 
 if __name__ == "__main__":
     main()

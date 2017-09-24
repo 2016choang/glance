@@ -23,7 +23,6 @@ def getArticles(client, company, keywords, quota):
 
 	while articleCount != quota and uriListIndex < len(uriList):
 		conceptList = [companyUri, uriList[uriListIndex]]
-		print(conceptList)
 
 		q = QueryArticlesIter( 
 						dateStart=timeStart,
