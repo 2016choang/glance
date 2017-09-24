@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 def getArticles(client, keywords, count):
 	timeNow = datetime.utcnow()
-	timeRange = timedelta(days=1)
+	timeRange = timedelta(days=7)
 	timeStart = timeNow - timeRange
 
 	uriList = []
@@ -29,13 +29,11 @@ def getArticles(client, keywords, count):
 	if "articles" in response :
 		articles = response["articles"]["results"]
 
-
-
 	return articles
 
 def main():
 	client = EventRegistry(apiKey="4c927d75-f35a-4646-910a-9f071768c8b1")
-	keywords = ["google", "apple"]
+	keywords = ["google", "deepmind"]
 	articleCount = 20;
 	articles = getArticles(client, keywords, articleCount)
 
@@ -45,6 +43,7 @@ def main():
 		print("Date: ", article["date"])
 		print("Time: ", article["time"])
 		print("URL: ", article["url"])
+		print("Source: ", article["source"])
 
 
 
