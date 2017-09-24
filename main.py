@@ -20,7 +20,7 @@ def main():
 
 	for company in companies:
 		keywords = data[company]
-		for keyword in keywords:
+		for keyword, salience in keywords:
 			pairing = [company, keyword]
 			articles = getArticles(er_client, pairing, 1)
 			if articles:

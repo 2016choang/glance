@@ -24,12 +24,12 @@ def getKeywords(client, entities, count):
                    'EVENT', 'WORK_OF_ART', 'CONSUMER_GOOD', 'OTHER']
 
     entity_types_allowed = ['PERSON', 'LOCATION', 'ORGANIZATION', 'EVENT', 'CONSUMER_GOOD', 'OTHER']
-    keywords = [entity.name
+    keywords = [(entity.name, entity.salience)
         for entity in entities[:count]
         if entity_types[entity.type] in entity_types_allowed
     ]
 
-    print("Obtained keywords")
+    print("Obtained keywords, salience")
     return keywords
     
 def main():
