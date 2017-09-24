@@ -1,6 +1,4 @@
 from parse import *
-from wiki import *
-from nlp import *
 from events import *
 from sms import *
 
@@ -13,7 +11,7 @@ def main():
 
 	data_path = 'data.pickle'
 	data = getData(data_path)
-	data = parse(er_client, language_client, data, companies)
+	data = parseCompanies(er_client, language_client, data, companies)
 	saveData(data_path, data)
 
 	twilio_client = getTwilioClient()

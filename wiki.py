@@ -7,7 +7,6 @@ def getERClient():
     return EventRegistry(apiKey="4c927d75-f35a-4646-910a-9f071768c8b1")
 
 def getWiki(client, company):
-    #uri = client.getConceptUri(company)
     concepts = client.suggestConcepts(company, ["org"])
     if concepts:
         wiki_param = concepts[0]["uri"].split("/")[-1]

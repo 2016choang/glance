@@ -11,7 +11,7 @@ def getData(path):
         print('Pickle file doesn\'t exist, creating')
         return {}   
 
-def parse(er_client, language_client, data, companies):
+def parseCompanies(er_client, language_client, data, companies):
     for company in companies:
         if company not in data:
             body = getWiki(er_client, company)
@@ -37,7 +37,7 @@ def main():
         'facebook','samsung', 'verizon','at&t']
     data = getData('data.pickle')
 
-    data = parse(er_client, language_client, data, companies)
+    data = parseCompanies(er_client, language_client, data, companies)
     saveData('data.pickle', data)
 
 if __name__=='__main__':
