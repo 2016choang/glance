@@ -1,11 +1,11 @@
 import sys
 from google.cloud import language
 
-def get_language_client():
+def getLanguageClient():
     print("Created language client")
     return language.LanguageServiceClient()
 
-def get_entities(client, text):
+def getEntities(client, text):
     document = language.types.Document(
         content=text,
         language='en',
@@ -19,16 +19,16 @@ def get_entities(client, text):
     print("Obtained entities")
     return resp.entities
     
-def get_keywords(client, entities):
+def getKeywords(client, entities):
     keywords = [entity.name for entity in entities[:20]]
     print("Obtained keywords")
     return keywords
     
 def main():
     text = sys.stdin.read()
-    client = get_language_client()
-    entities = get_entities(client, text)
-    keywords = get_keywords(client, entities)
+    client = getLanguageClient()
+    entities = getEntities(client, text)
+    keywords = getKeywords(client, entities)
     print(keywords)
  
 if __name__=='__main__':

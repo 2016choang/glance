@@ -23,7 +23,7 @@ def wiki(client, company):
 
 def main():
     er = EventRegistry(apiKey="4c927d75-f35a-4646-910a-9f071768c8b1")
-    wiki(er, "apple")
+    wiki(er, "delta")
 
 if __name__ == "__main__":
     main()
