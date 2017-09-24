@@ -20,7 +20,7 @@ def getEntities(client, text):
     return resp.entities
     
 def getKeywords(client, entities):
-    keywords = [entity.name for entity in entities[:20]]
+    keywords = [entity.name for entity in entities[:40]]
     print("Obtained keywords")
     return keywords
     
