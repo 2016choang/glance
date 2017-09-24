@@ -10,7 +10,7 @@ def main():
 	# companies = ['apple', 'microsoft','google','amazon',
     #     'facebook','samsung', 'verizon','at&t']
 	
-	articleQuota = sys.argv[1]
+	articleQuota = int(sys.argv[1])
 	companies = sys.argv[2:]
 
 	data_path = 'data.pickle'
@@ -28,16 +28,23 @@ def main():
 	for company in companies:
 		keywords, salience  = zip(*data[company])
 		articles = getArticles(er_client, company, keywords, companyArticleCount)
-		if articles :
-			for article in articles :
+		if articles:
+			for article in articles:
 				importance = 100
-				if article["source"] :
-					importance = article["source"]["ranking"]["importanceRank"]
-				articlePool.append((importance, article))
+				if article["source"]:
+					if 'ranking' in article["source"]:
+						if 'importanceRank' in article["source"]["ranking"]:
+							importance = article["source"]["ranking"]["importanceRank"]
+				articlePool.append((importance, article, company))
 
-	message_body = ""
-	for importance, article in articlePool:
-		message_body += '----------Article----------' + '\n'
+	articlePool = sorted(articlePool, key=lambda x: x[0])
+
+	# for importance, article, company in articlePool:
+	# 	print(importance, article['url'], company)
+	message_body = "\n"
+	for importance, article, company in articlePool[:articleQuota]:
+		message_body += "----------Article----------" + '\n'
+		message_body += "Company: " + company + '\n'
 		message_body += "Title: " + article["title"] + '\n'
 		message_body += "Date: " + article["date"] + '\n'
 		message_body += "Time: " + article["time"] + '\n'

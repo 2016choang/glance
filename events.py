@@ -7,41 +7,36 @@ def getArticles(client, company, keywords, quota):
 	companyUri = ""
 	if concepts:
 		companyUri = concepts[0]["uri"]
-
+	print('Getting articles for', companyUri)
 	timeNow = datetime.utcnow()
 	timeRange = timedelta(days=7)
 	timeStart = timeNow - timeRange
-
-	uriList = []
-	for keyword in keywords:
-		uri = client.getConceptUri(keyword)
-		uriList.append(uri)
 
 	uriListIndex = 0;
 	articleCount = 0;
 	articles = []
 
-	while articleCount != quota and uriListIndex < len(uriList):
-		conceptList = [companyUri, uriList[uriListIndex]]
+	while articleCount < quota and uriListIndex < len(keywords):
+		uriKeyword = client.getConceptUri(keywords[uriListIndex])
+		conceptList = [companyUri, uriKeyword]
 
 		q = QueryArticlesIter( 
 						dateStart=timeStart,
 						lang="eng",
 						conceptUri=QueryItems.AND(conceptList)
 						)
-		q.setRequestedResult(RequestArticlesInfo(page=1, count=3, sortBy="rel",
-			returnInfo=ReturnInfo(articleInfo=ArticleInfoFlags(concepts=True, categories=True, image=True))))
+		q.setRequestedResult(RequestArticlesInfo(page=1, count=1, sortBy="sourceImportance",
+			returnInfo=ReturnInfo(sourceInfo = SourceInfoFlags(ranking=True))))
 		
 		response = client.execQuery(q)
 
-		if "articles" in response :
+		if "articles" in response:
 			articleCount += response["articles"]["count"]
 			currentArticles = response["articles"]["results"]
-
-			for article in currentArticles :
+			for article in currentArticles:
 				articles.append(article)
-
-		uriListIndex+=1
+		print('Number of articles found:', articleCount)
+		uriListIndex += 1
 
 	return articles
 

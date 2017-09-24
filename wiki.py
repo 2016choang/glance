@@ -4,7 +4,7 @@ import json
 from lxml import html
 
 def getERClient():
-    return EventRegistry(apiKey="4c927d75-f35a-4646-910a-9f071768c8b1")
+    return EventRegistry(apiKey="57cdfe2e-ea66-42c1-a00d-83a1e0e6f9a6")
 
 def getWiki(client, company):
     concepts = client.suggestConcepts(company, ["org"])
