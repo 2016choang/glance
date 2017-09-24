@@ -11,7 +11,6 @@ def getArticles(client, keywords, count):
 		uri = client.getConceptUri(keyword)
 		uriList.append(uri)
 
-
 	q = QueryArticlesIter( 
 						dateStart=timeStart,
 						lang="eng",
