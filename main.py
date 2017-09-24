@@ -36,7 +36,7 @@ def main():
 				articlePool.append((importance, article))
 
 	message_body = ""
-	for article in articlePool:
+	for importance, article in articlePool:
 		message_body += '----------Article----------' + '\n'
 		message_body += "Title: " + article["title"] + '\n'
 		message_body += "Date: " + article["date"] + '\n'
