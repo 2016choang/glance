@@ -15,20 +15,23 @@ def get_entities(client, text):
 
     return resp.entities
     
+def get_keywords(client, entities):
+    keywords = []
+    for entity in entities[:20]:
+        # print('---------')
+        # print('name: {0}'.format(entity.name))
+        # print('name: {0}'.format(entity.type))
+        # print('name: {0}'.format(entity.metadata))
+        # print('name: {0}'.format(entity.salience))
+        keywords.append(entity.name)
+    return keywords
+    
 def main():
     client = language.LanguageServiceClient()
     text = sys.stdin.read()
-
     entities = get_entities(client, text)
-    for entity in entities:
-        print('---------')
-        print('name: {0}'.format(entity.name))
-        print('name: {0}'.format(entity.type))
-        print('name: {0}'.format(entity.metadata))
-        print('name: {0}'.format(entity.salience))
-
-
+    keywords = get_keywords(client, entities)
+    print(keywords)
  
-
 if __name__=='__main__':
     main()
