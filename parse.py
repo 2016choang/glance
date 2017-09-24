@@ -20,7 +20,7 @@ def parseCompanies(er_client, language_client, data, companies):
             data[company] = keywords
             print('Parsed', company)
             just_keys = [x[0] for x in keywords]
-            print('  Keywords:', just_keys)
+            print('Keywords:', just_keys)
         else:
             print('Company', company, 'already in data')
 
