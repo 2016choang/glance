@@ -3,6 +3,8 @@ import requests
 
 
 def getStock(ticker, date):
+    params = [int(x) for x in date.split('-')]
+    date = dt.datetime(*params)
     payload = {'function':'TIME_SERIES_DAILY',
         'symbol':ticker,
         'apikey': 'HF4EGOIKD6QHSIF3',
@@ -16,7 +18,7 @@ def getStock(ticker, date):
     return stocks_dict['Time Series (Daily)'][date.strftime('%Y-%m-%d')]
 
 def main():
-    today = dt.date.today()
+    today = '2017-09-22'
     stock = getStock('MSFT', today)
     print(stock)
 
