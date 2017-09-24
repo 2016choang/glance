@@ -1,7 +1,13 @@
 from eventregistry import *
 from datetime import datetime, timedelta
 
-def getArticles(client, keywords, count):
+def getArticles(client, company, keywords, quota):
+
+	concepts = client.suggestConcepts(company, ["org"])
+	companyUri = ""
+	if concepts:
+		companyUri = concepts[0]["uri"]
+
 	timeNow = datetime.utcnow()
 	timeRange = timedelta(days=7)
 	timeStart = timeNow - timeRange
@@ -11,30 +17,41 @@ def getArticles(client, keywords, count):
 		uri = client.getConceptUri(keyword)
 		uriList.append(uri)
 
-	q = QueryArticlesIter( 
+	uriListIndex = 0;
+	articleCount = 0;
+	articles = []
+
+	while articleCount != quota and uriListIndex < len(uriList):
+		conceptList = [companyUri, uriList[uriListIndex]]
+		print(conceptList)
+
+		q = QueryArticlesIter( 
 						dateStart=timeStart,
 						lang="eng",
-						conceptUri=QueryItems.AND(uriList)
+						conceptUri=QueryItems.AND(conceptList)
 						)
-	
-	q.setRequestedResult(RequestArticlesInfo(page=1, count=count, sortBy="rel",
-		returnInfo=ReturnInfo(articleInfo=ArticleInfoFlags(concepts=True, categories=True, image=True))))
+		q.setRequestedResult(RequestArticlesInfo(page=1, count=3, sortBy="rel",
+			returnInfo=ReturnInfo(articleInfo=ArticleInfoFlags(concepts=True, categories=True, image=True))))
+		
+		response = client.execQuery(q)
 
+		if "articles" in response :
+			articleCount += response["articles"]["count"]
+			currentArticles = response["articles"]["results"]
 
-	response = client.execQuery(q)
+			for article in currentArticles :
+				articles.append(article)
 
-	articles = None
-
-	if "articles" in response :
-		articles = response["articles"]["results"]
+		uriListIndex+=1
 
 	return articles
 
 def main():
 	client = EventRegistry(apiKey="4c927d75-f35a-4646-910a-9f071768c8b1")
-	keywords = ["google", "deepmind"]
-	articleCount = 20;
-	articles = getArticles(client, keywords, articleCount)
+	company = "google"
+	keywords = ["deepmind", "apple", "home", "AI", "phone"]
+	articleQuota = 10;
+	articles = getArticles(client, company, keywords, articleQuota)
 
 	for article in articles:
 		print("------------------------Article------------------------")
