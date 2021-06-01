@@ -23,4 +23,4 @@ requests==2.18.4
 rsa==3.4.2
 six==1.11.0
 twilio==6.6.3
-urllib3==1.22
+urllib3==1.26.5
