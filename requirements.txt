@@ -11,7 +11,7 @@ google-gax==0.15.15
 googleapis-common-protos==1.5.2
 grpcio==1.4.0
 idna==2.6
-lxml==4.0.0
+lxml==4.6.5
 ply==3.8
 protobuf==3.4.0
 pyasn1==0.3.6
